@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./src/vue.js" type="text/javascript"></script>
+    <title></title>
+</head>
+<body>
+
+    <!-- 容器 -->
+    <div id="root">
+        <h1>hello，{{name}}，age：{{age}}</h1>
+    </div>
+
+    <script type="text/javascript">
+        // 阻止 Vue 在启动时生成开发环境提示
+        Vue.config.productionTip = false
+
+        new Vue({
+            el: '#root', // el用于指定当前Vue实例为哪个容器服务，值通常为css选择器字符串。
+            data: { // data中用于存储数据，数据供el所指定的容器去使用，值我们暂时先写成一个对象。
+                name: "王瑞鹏",
+                age: 18
+            }
+        })
+    </script>
+</body>
+</html>
