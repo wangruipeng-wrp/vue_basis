@@ -17,13 +17,24 @@
         // 阻止 Vue 在启动时生成开发环境提示
         Vue.config.productionTip = false
 
-        new Vue({
+        const vm = new Vue({
             el: '#root', // el用于指定当前Vue实例为哪个容器服务，值通常为css选择器字符串。
-            data: { // data中用于存储数据，数据供el所指定的容器去使用，值我们暂时先写成一个对象。
+            data: { // data中用于存储数据，数据供el所指定的容器去使用，值我们暂时先写成一个对象。（对象式写法）
                 name: "王瑞鹏",
                 age: 18
-            }
+            },
+
+            // data的另一种函数式写法
+            // data() {
+            //     return {
+            //         name: "王瑞鹏",
+            //         age: 18
+            //     }
+            // }
         })
+
+        // el 的另外一种写法：
+        // vm.$mount("#root")   // 这种写法可以动态指定什么时候将容器跟 Vue 实例绑定到一起
     </script>
 </body>
 </html>
