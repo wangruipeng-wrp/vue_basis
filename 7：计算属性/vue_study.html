@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="../src/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <!-- 容器 -->
+    <div id="root">
+        姓：<input type="text" v-model="firstName"> <br/><br/>
+        名：<input type="text" v-model="lastName"> <br/><br/>
+        全名：<span>{{fullName}}</span>
+    </div>
+
+    <script type="text/javascript">
+        //阻止 vue 在启动时生成生产提示。
+        Vue.config.productionTip = false
+
+        const vm = new Vue({
+            el: "#root",
+			data:{
+				firstName:'张',
+				lastName:'三'
+            },
+            computed: {
+                fullName: {
+                    //get有什么作用？当有人读取fullName时，get就会被调用，且返回值就作为fullName的值
+                    //get什么时候调用？
+                    //  1.初次读取fullName时。
+                    //  2.所依赖的数据发生变化时。
+                    get() {
+                        console.log('get被调用了')
+						return this.firstName + '-' + this.lastName
+                    },
+
+                    //set什么时候调用? 当fullName被修改时。
+                    set(value) {
+						console.log('set',value)
+						const arr = value.split('-')
+						this.firstName = arr[0]
+						this.lastName = arr[1]
+                    }
+                },
+                
+                // 如果确定不需要set方法，可以使用简写如下：
+                /*
+                fullName() {
+                    console.log('get被调用了')
+                    return this.firstName + '-' + this.lastName
+                }
+                */
+            }
+        })
+    </script>
+</body>
+</html>
