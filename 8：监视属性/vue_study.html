@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="../src/vue.js" type="text/javascript"></script>
+</head>
+<body>
+    <!-- 容器 -->
+    <div id="root">
+        <h2>今天天气很{{isHot ? '炎热' : '凉爽'}}</h2>
+    </div>
+
+	<script type="text/javascript">
+        //阻止 vue 在启动时生成生产提示。
+        Vue.config.productionTip = false
+		
+		const vm = new Vue({
+			el:'#root',
+			data:{
+				isHot:true,
+			},
+			watch:{
+				isHot:{
+                    // immediate:true, // 初始化时让handler调用一下
+					// deep:true,      // 监视多级结构中所有属性的变化
+
+					//handler什么时候调用？当isHot发生改变时。
+					handler(newValue,oldValue){
+						console.log('isHot被修改了',newValue,oldValue)
+					}
+                }
+                
+                // 简写（无法使用immediate属性和deep属性）
+                /*
+                isHot(newValue,oldValue) {
+                    console.log('isHot被修改了',newValue,oldValue)
+                }
+                */
+			}
+		})
+
+        // 另外一种写法，可以动态指定监视事件的时间
+        /*
+		vm.$watch('isHot',{
+			immediate:true,
+			deep: true,
+			handler(newValue,oldValue){
+				console.log('isHot被修改了',newValue,oldValue)
+			}
+        })
+
+        // 简写
+        vm.$watch('isHot',(newValue,oldValue) => {
+            console.log('isHot被修改了',newValue,oldValue)	
+        })
+        */
+	</script>
+</body>
+</html>

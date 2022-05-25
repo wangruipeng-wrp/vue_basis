@@ -1,4 +1,4 @@
-计算属性：
+# 计算属性：
 1. 定义：要用的属性不存在，要通过已有属性计算得来。  
 2. 原理：底层借助了Objcet.defineproperty方法提供的getter和setter。  
 3. get函数什么时候执行？  
