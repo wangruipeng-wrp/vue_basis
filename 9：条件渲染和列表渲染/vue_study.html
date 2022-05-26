@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../src/vue.js" type="text/javascript"></script>
+    <title></title>
+</head>
+
+<body>
+    <!-- 容器 -->
+    <div id="root">
+        <!-- 使用v-show做条件渲染 -->
+        <h2 v-show="isShow">我是：{{name}}</h2>
+        <h2 v-show="isNotShow">我是：{{name}}</h2>
+
+        <hr>
+
+        <!-- 使用v-if做条件渲染 -->
+        <h2 v-if="isShow">我是：{{name}}</h2>
+        <h2 v-if="isNotShow">我是：{{name}}</h2>
+
+        <!-- v-else和v-else-if -->
+        <div v-if="n === 1">n = 1</div>
+        <div v-else-if="n === 2">n = 2</div>
+        <div v-else>n既不等于1也不等于2</div>
+        <button @click="n++">n++</button>
+
+        <!-- v-if与template的配合使用（利用template将v-if的代码段包裹起来，相当于指定了if的花括号） -->
+        <template v-if="n === 1">
+            <h2>张三</h2>
+            <h2>李四</h2>
+            <h2>王五</h2>
+        </template>
+
+        <!-- 遍历数组 -->
+        <h2>人员列表（遍历数组）</h2>
+        <ul>
+            <li v-for="(p,index) of persons" :key="index">
+                {{p.name}}-{{p.age}}
+            </li>
+        </ul>
+
+        <!-- 遍历对象 -->
+        <h2>汽车信息（遍历对象）</h2>
+        <ul>
+            <li v-for="(value,k) of car" :key="k">
+                {{k}}-{{value}}
+            </li>
+        </ul>
+
+        <!-- 遍历字符串 -->
+        <h2>测试遍历字符串（用得少）</h2>
+        <ul>
+            <li v-for="(char,index) of str" :key="index">
+                {{char}}-{{index}}
+            </li>
+        </ul>
+
+        <!-- 遍历指定次数 -->
+        <h2>测试遍历指定次数（用得少）</h2>
+        <ul>
+            <li v-for="(number,index) of 5" :key="index">
+                {{index}}-{{number}}
+            </li>
+        </ul>
+
+        <!-- 列表过滤和排序 -->
+        <h2>人员列表</h2>
+        <input type="text" placeholder="请输入名字" v-model="keyWord">
+        <button @click="sortType = 2">年龄升序</button>
+        <button @click="sortType = 1">年龄降序</button>
+        <button @click="sortType = 0">原顺序</button>
+        <ul>
+            <li v-for="(p,index) of filPerons" :key="p.id">
+                {{p.name}}-{{p.age}}-{{p.sex}}
+            </li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        //阻止 vue 在启动时生成生产提示。
+        Vue.config.productionTip = false
+
+        new Vue({
+            el: "#root",
+            data: {
+                name: "张三",
+                n: 1,
+                isShow: true,
+                isNotShow: false,
+                persons: [
+                    { id: '001', name: '马冬梅', age: 30, sex: '女' },
+                    { id: '002', name: '周冬雨', age: 31, sex: '女' },
+                    { id: '003', name: '周杰伦', age: 18, sex: '男' },
+                    { id: '004', name: '温兆伦', age: 19, sex: '男' }
+                ],
+                car: {
+                    name: '奥迪A8',
+                    price: '70万',
+                    color: '黑色'
+                },
+                str: 'hello',
+                
+                keyWord:'',
+                sortType:0, //0原顺序 1降序 2升序
+            },
+            // 利用计算属性实现过滤和排序
+            computed: {
+                filPerons() {
+                    // 过滤
+                    const arr = this.persons.filter((p) => {
+                        return p.name.indexOf(this.keyWord) !== -1
+                    })
+
+                    // 排序
+                    if (this.sortType == 0) return arr
+                    arr.sort((p1,p2) => {
+                        return this.sortType === 1 ? p2.age-p1.age : p1.age-p2.age
+                    })
+                    return arr
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
