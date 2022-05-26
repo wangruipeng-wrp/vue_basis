@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="../src/vue.js" type="text/javascript"></script>
+    <title></title>
+</head>
+<body>
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>当前的n值是：<span v-text="n"></span> </h2>
+        <h2>放大10倍后的n值是：<span v-big-number="n"></span> </h2>
+        <button @click="n++">n++</button>
+        <hr/>
+        <input type="text" v-focus-bind:value="n">
+    </div>
+
+    <script type="text/javascript">
+		Vue.config.productionTip = false
+
+		const vm = new Vue({
+			el:'#root',
+			data:{ n:1 },
+            
+            // 定义局部指令（当前vm实例内生效）
+			directives:{
+                // 定义一个v-big-number指令，和v-text功能类似，但会把绑定的数值放大10倍。
+				// 函数式定义指令：该函数的调用时机与bind和update的调用时机相同
+				'big-number'(element,binding){
+					// console.log(this) //注意此处的this是window
+					element.innerText = binding.value * 10
+                },
+                
+                // 定义一个v-focus-bind指令，和v-bind功能类似，但可以让其所绑定的input元素默认获取焦点。
+                // 对象式定义指令：可以通过回调函数灵活支配回调时机
+				'focus-bind':{
+					//指令与元素成功绑定时（一上来）
+					bind(element,binding){
+						element.value = binding.value
+					},
+					//指令所在元素被插入页面时
+					inserted(element,binding){
+						element.focus()
+					},
+					//指令所在的模板被重新解析时
+					update(element,binding){
+						element.value = binding.value
+					}
+				}
+			}
+        })
+        
+        //定义全局指令
+		/* Vue.directive('focus-bind',{
+			//指令与元素成功绑定时（一上来）
+			bind(element,binding){
+				element.value = binding.value
+			},
+			//指令所在元素被插入页面时
+			inserted(element,binding){
+				element.focus()
+			},
+			//指令所在的模板被重新解析时
+			update(element,binding){
+				element.value = binding.value
+			}
+		}) */
+	</script>
+</body>
+</html>
