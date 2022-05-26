@@ -55,5 +55,5 @@ console.log(a === 1 && a === 2 && a === 3) // true
 4. 在Vue修改数组中的某个元素一定要用如下方法：
     - 使用这些API:push()、pop()、shift()、unshift()、splice()、sort()、reverse()
     - Vue.set() 或 vm.$set()
-				
+
 > 特别注意：Vue.set() 和 vm.$set() 不能给vm 或 vm的根数据对象 添加属性！！！
