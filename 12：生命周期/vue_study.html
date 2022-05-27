@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<script type="text/javascript" src="../src/vue.js"></script>
+	</head>
+	<body>
+		<!-- 容器 -->
+		<div id="root">
+			<h2>当前的n值是：{{n}}</h2>
+			<button @click="add">n++</button>
+			<button @click="bye">销毁vm对象</button>
+		</div>
+	</body>
+
+	<script type="text/javascript">
+		Vue.config.productionTip = false
+
+		new Vue({
+			el:'#root',
+			data:{ n:1 },
+			methods: {
+				add(){
+					console.log('add')
+					this.n++
+				},
+				bye(){
+					console.log('bye')
+					this.$destroy()
+				}
+			},
+
+            
+            /**
+             * 数据代理之前，此时无法通过vm对象获取data中的数据或methods中的方法
+             */
+			beforeCreate() {
+				console.log('beforeCreate')
+			},
+
+            /**
+             * 数据代理之后，此阶段可以通过vm对象获取data中的数据或methods中的方法
+             */
+			created() {
+				console.log('created')
+			},
+
+            /**
+             * 1. 此阶段页面所呈现的都是未经Vue编译的DOM结构
+             * 2. 所有对DOM的操作，最终都不会生效
+             */
+			beforeMount() {
+				console.log('beforeMount')
+			},
+
+            /**
+             * 1. 页面中呈现的都是经过Vue编译的DOM
+             * 2. 对DOM的操作均有效，但应尽量避免
+             * 初始化过程至此结束，一般在此处进行：开启定时器、发送网络请求、订阅消息、绑定自定义事件等初始化操作
+             */
+			mounted() {
+				console.log('mounted')
+			},
+
+            /**
+             * data数据更新完成后，页面渲染新数据之前
+             * 在此阶段：数据是新的，但页面数据是未经渲染的，即：页面尚未和数据保持同步
+             */
+			beforeUpdate() {
+				console.log('beforeUpdate')
+			},
+
+            /**
+             * data数据更新且页面已渲染新数据
+             * 在此阶段：数据和页面都是新的，即：页面和数据已经同步
+             */
+			updated() {
+				console.log('updated')
+			},
+
+            /**
+             * 在此阶段，vm中的数据仍然可用，但马上要执行销毁过程
+             * 一般在此处进行：关闭定时器、取消订阅消息、解绑自定义事件等收尾操作
+             */
+			beforeDestroy() {
+				console.log('beforeDestroy')
+			},
+
+            /**
+             * vm销毁完毕，数据不可以用
+             */
+			destroyed() {
+				console.log('destroyed')
+			},
+		})
+	</script>
+</html>
