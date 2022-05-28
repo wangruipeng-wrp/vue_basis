@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<script type="text/javascript" src="../src/vue.js"></script>
+	</head>
+	<body>
+        
+		<!-- vm 容器 -->
+		<div id="root">
+			<!-- 第三步：编写组件标签 -->
+			<school></school>
+            <hr>
+            <!-- 第三步：编写组件标签（自闭和方式，多个相同的自闭和标签仅展示一个） -->
+            <hello/>
+            <hello/>
+            <hello/>
+		</div>
+	</body>
+
+    <script type="text/javascript">
+		Vue.config.productionTip = false
+
+        //第一步：创建student组件
+		const student = Vue.extend({
+			template:`
+				<div>
+					<h2>学生姓名：{{studentName}}</h2>
+					<h2>学生年龄：{{age}}</h2>
+				</div>
+			`,
+			data(){
+				return {
+					studentName:'张三',
+					age:18
+				}
+			}
+        })
+
+		//第一步：创建school组件（另外一种创建方式，更常用一些）
+		const school = {
+            // 模板。相当于组件自身内部的容器，注意：组件不可指定el属性
+			template:`
+				<div class="demo">
+					<h2>学校名称：{{schoolName}}</h2>
+					<h2>学校地址：{{address}}</h2>
+					<button @click="showName">点我提示学校名</button>
+                    <!-- 编写组件标签可以使用自闭和标签，但必须在脚手架环境中使用，否则多个标签仅会识别一个 -->
+                    <student/>
+				</div>
+			`,
+			data(){
+				return {
+					schoolName:'清华大学',
+					address:'北京'
+				}
+			},
+			methods: {
+				showName(){
+					alert(this.schoolName)
+				}
+			},
+            // 组件嵌套
+            components:{
+				student
+			}
+		}
+		
+		//第一步：创建hello组件
+		const hello = Vue.extend({
+			template:`
+				<div>	
+					<h2>你好啊！{{name}}</h2>
+				</div>
+			`,
+			data(){
+				return {
+					name:'Tom'
+				}
+			}
+		})
+		
+		//第二步：注册组件（全局注册）
+        // 全局注册的组件不需要在vm实例中注册即可使用
+		Vue.component('hello',hello)
+
+        // vm
+		new Vue({
+			el:'#root',
+			data:{
+				msg:'你好啊！'
+			},
+			//第二步：注册组件（局部注册）
+			components:{
+				school
+			}
+		})
+	</script>
+</html>
